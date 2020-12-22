@@ -69,15 +69,15 @@ class RegularDataset(Dataset):
         B = self.parsing_embedding(B_path, 'seg')  # channel(20), H, W
 
         # densepose maps
-        dense_path = self.densepose_paths[index]
-        dense_img = np.load(dense_path).astype('uint8')
-        dense_img_parts_embeddings = self.parsing_embedding(
-            dense_img[:, :, 0], 'densemap')
+        # dense_path = self.densepose_paths[index]
+        # dense_img = np.load(dense_path).astype('uint8')
+        # dense_img_parts_embeddings = self.parsing_embedding(
+        #     dense_img[:, :, 0], 'densemap')
 
-        dense_img_parts_embeddings = np.transpose(
-            dense_img_parts_embeddings, axes=(1, 2, 0))
-        dense_img_final = np.concatenate(
-            (dense_img_parts_embeddings, dense_img[:, :, 1:]), axis=-1)  # channel(27), H, W
+        # dense_img_parts_embeddings = np.transpose(
+        #     dense_img_parts_embeddings, axes=(1, 2, 0))
+        # dense_img_final = np.concatenate(
+        #     (dense_img_parts_embeddings, dense_img[:, :, 1:]), axis=-1)  # channel(27), H, W
 
         # original seg mask
         seg_mask = Image.open(A_path)
@@ -90,7 +90,9 @@ class RegularDataset(Dataset):
         dense_img_final = torch.from_numpy(
             np.transpose(dense_img_final, axes=(2, 0, 1)))
 
-        input_dict = {'seg_map': A_tensor, 'dense_map': dense_img_final, 'target': B_tensor, 'seg_map_path': A_path,
+        # input_dict = {'seg_map': A_tensor, 'dense_map': dense_img_final, 'target': B_tensor, 'seg_map_path': A_path,
+        #               'target_path': A_path, 'densepose_path': dense_path, 'seg_mask': seg_mask}
+        input_dict = {'seg_map': A_tensor,'target': B_tensor, 'seg_map_path': A_path,
                       'target_path': A_path, 'densepose_path': dense_path, 'seg_mask': seg_mask}
 
         return input_dict

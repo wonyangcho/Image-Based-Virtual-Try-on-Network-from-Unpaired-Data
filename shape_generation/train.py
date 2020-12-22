@@ -110,88 +110,89 @@ display_delta = total_steps % opt.display_freq
 print_delta = total_steps % opt.print_freq
 save_delta = total_steps % opt.save_latest_freq
 
-for epoch in range(start_epoch, opt.niter + opt.niter_decay + 1):
-    epoch_start_time = time.time()
-    if epoch != start_epoch:
-        epoch_iter = epoch_iter % dataset_size
-    for i, data in enumerate(train_dataloader, start=epoch_iter):
-        if total_steps % opt.print_freq == print_delta:
-            iter_start_time = time.time()
-        total_steps += opt.batchSize
-        epoch_iter += opt.batchSize
+#여기서 부터
+# for epoch in range(start_epoch, opt.niter + opt.niter_decay + 1):
+#     epoch_start_time = time.time()
+#     if epoch != start_epoch:
+#         epoch_iter = epoch_iter % dataset_size
+#     for i, data in enumerate(train_dataloader, start=epoch_iter):
+#         if total_steps % opt.print_freq == print_delta:
+#             iter_start_time = time.time()
+#         total_steps += opt.batchSize
+#         epoch_iter += opt.batchSize
 
-        # whether to collect output images
-        save_fake = total_steps % opt.display_freq == display_delta
+#         # whether to collect output images
+#         save_fake = total_steps % opt.display_freq == display_delta
 
-        ############## Forward Pass ######################
-        # Reference Purpose
-        # input_dict = {'seg_map': A_tensor, 'dense_map': dense_img, 'target': B_tensor, 'seg_map_path': A_path,
-        # 'target_path': A_path, 'densepose_path': dense_path }
-        # print( data['seg_mask'].shape)
-        losses, generated = model(
-            data['seg_map'], data['dense_map'], data['target'], data['seg_mask'], infer=save_fake)
+#         ############## Forward Pass ######################
+#         # Reference Purpose
+#         # input_dict = {'seg_map': A_tensor, 'dense_map': dense_img, 'target': B_tensor, 'seg_map_path': A_path,
+#         # 'target_path': A_path, 'densepose_path': dense_path }
+#         # print( data['seg_mask'].shape)
+#         losses, generated = model(
+#             data['seg_map'], data['dense_map'], data['target'], data['seg_mask'], infer=save_fake)
 
-        # sum per device losses
-        losses = [torch.mean(x) if not isinstance(x, int)
-                  else x for x in losses]
-        loss_dict = dict(zip(model.module.loss_names, losses))
+#         # sum per device losses
+#         losses = [torch.mean(x) if not isinstance(x, int)
+#                   else x for x in losses]
+#         loss_dict = dict(zip(model.module.loss_names, losses))
 
-        # calculate final loss scalar
-        loss_D = (loss_dict['D_fake'] + loss_dict['D_real']) * 0.5
-        loss_G = loss_dict['G_GAN'] + loss_dict.get('G_CE', 0)
+#         # calculate final loss scalar
+#         loss_D = (loss_dict['D_fake'] + loss_dict['D_real']) * 0.5
+#         loss_G = loss_dict['G_GAN'] + loss_dict.get('G_CE', 0)
 
-        ############### Backward Pass ####################
-        # update generator weights
-        optimizer_G.zero_grad()
-        loss_G.backward()
-        optimizer_G.step()
+#         ############### Backward Pass ####################
+#         # update generator weights
+#         optimizer_G.zero_grad()
+#         loss_G.backward()
+#         optimizer_G.step()
 
-        # update discriminator weights
-        optimizer_D.zero_grad()
-        loss_D.backward()
-        optimizer_D.step()
+#         # update discriminator weights
+#         optimizer_D.zero_grad()
+#         loss_D.backward()
+#         optimizer_D.step()
 
-        ############## Display results and errors ##########
-        # print out errors
-        if total_steps % opt.print_freq == print_delta:
-            errors = {k: v.data.item() if not isinstance(
-                v, int) else v for k, v in loss_dict.items()}
-            t = (time.time() - iter_start_time) / opt.print_freq
-            visualizer.print_current_errors(epoch, epoch_iter, errors, t)
-            visualizer.plot_current_errors(errors, total_steps)
-            #call(["nvidia-smi", "--format=csv", "--query-gpu=memory.used,memory.free"])
+#         ############## Display results and errors ##########
+#         # print out errors
+#         if total_steps % opt.print_freq == print_delta:
+#             errors = {k: v.data.item() if not isinstance(
+#                 v, int) else v for k, v in loss_dict.items()}
+#             t = (time.time() - iter_start_time) / opt.print_freq
+#             visualizer.print_current_errors(epoch, epoch_iter, errors, t)
+#             visualizer.plot_current_errors(errors, total_steps)
+#             #call(["nvidia-smi", "--format=csv", "--query-gpu=memory.used,memory.free"])
 
-        # display output images
-        if save_fake:
-            visuals = OrderedDict([('input_label', util.tensor2label(data['seg_map'][0], opt.label_nc)),
-                                   ('synthesized_image', util.tensor2label(
-                                       generated.data[0], opt.label_nc)),
-                                   ('real_image', util.tensor2label(data['target'][0], opt.label_nc))])
-            visualizer.display_current_results(visuals, epoch, total_steps)
+#         # display output images
+#         if save_fake:
+#             visuals = OrderedDict([('input_label', util.tensor2label(data['seg_map'][0], opt.label_nc)),
+#                                    ('synthesized_image', util.tensor2label(
+#                                        generated.data[0], opt.label_nc)),
+#                                    ('real_image', util.tensor2label(data['target'][0], opt.label_nc))])
+#             visualizer.display_current_results(visuals, epoch, total_steps)
 
-        # save latest model
-        if total_steps % opt.save_latest_freq == save_delta:
-            print('saving the latest model (epoch %d, total_steps %d)' %
-                  (epoch, total_steps))
-            model.module.save('latest')
-            np.savetxt(iter_path, (epoch, epoch_iter), delimiter=',', fmt='%d')
+#         # save latest model
+#         if total_steps % opt.save_latest_freq == save_delta:
+#             print('saving the latest model (epoch %d, total_steps %d)' %
+#                   (epoch, total_steps))
+#             model.module.save('latest')
+#             np.savetxt(iter_path, (epoch, epoch_iter), delimiter=',', fmt='%d')
 
-        if epoch_iter >= dataset_size:
-            break
+#         if epoch_iter >= dataset_size:
+#             break
 
-    # end of epoch
-    iter_end_time = time.time()
-    print('End of epoch %d / %d \t Time Taken: %d sec' %
-          (epoch, opt.niter + opt.niter_decay, time.time() - epoch_start_time))
+#     # end of epoch
+#     iter_end_time = time.time()
+#     print('End of epoch %d / %d \t Time Taken: %d sec' %
+#           (epoch, opt.niter + opt.niter_decay, time.time() - epoch_start_time))
 
-    # save model for this epoch
-    if epoch % opt.save_epoch_freq == 0:
-        print('saving the model at the end of epoch %d, iters %d' %
-              (epoch, total_steps))
-        model.module.save('latest')
-        model.module.save(epoch)
-        np.savetxt(iter_path, (epoch+1, 0), delimiter=',', fmt='%d')
+#     # save model for this epoch
+#     if epoch % opt.save_epoch_freq == 0:
+#         print('saving the model at the end of epoch %d, iters %d' %
+#               (epoch, total_steps))
+#         model.module.save('latest')
+#         model.module.save(epoch)
+#         np.savetxt(iter_path, (epoch+1, 0), delimiter=',', fmt='%d')
 
-    # linearly decay learning rate after certain iterations
-    if epoch > opt.niter:
-        model.module.update_learning_rate()
+#     # linearly decay learning rate after certain iterations
+#     if epoch > opt.niter:
+#         model.module.update_learning_rate()
