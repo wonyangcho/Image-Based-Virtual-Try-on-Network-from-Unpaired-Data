@@ -3,11 +3,15 @@ from torch.utils.data.dataset import Dataset
 from data.image_folder import make_dataset
 
 import os
+import sys
+sys.path.append("/home/detectron2/projects/DensePose")
+
 from PIL import Image
 from glob import glob as glob
 import numpy as np
 import random
 import torch
+import pickle
 
 
 class RegularDataset(Dataset):
@@ -39,7 +43,7 @@ class RegularDataset(Dataset):
 
         self.dataset_size = len(self.A_paths)
 
-        print("label image size = {0} densepose image size{1}".format(self.dataset_size, len(self.densepose_paths)))
+        print("label image size = {0} densepose image size = {1}".format(self.dataset_size, len(self.densepose_paths)))
 
     def custom_transform(self, input_image, per_channel_transform):
 
@@ -76,6 +80,19 @@ class RegularDataset(Dataset):
 
 
         # densepose maps
+        #  새 모듈 시작
+        print("denspose_paths : {}".format(self.densepose_paths[index]))
+
+        # |labels| = [H,W]
+        # |uv| = [2,H,W]
+
+        with open(self.densepose_paths[index], 'rb') as f:
+            densepose_pkl_data = pickle.load(f)
+            pred_densepose = densepose_pkl_data[0]['pred_densepose']
+            print("pred dense boxes : {} ({} )".format(densepose_pkl_data[0]['pred_boxes_XYXY'],densepose_pkl_data[0]['pred_boxes_XYXY'].shape))
+            print("pred dense pose label : {} ( {} )".format(pred_densepose[0].labels,pred_densepose[0].labels.shape))
+        #  새 모듈 끝
+
         # 잠시 주식처리 시작
         # dense_path = self.densepose_paths[index]
         # dense_img = np.load(dense_path).astype('uint8')
