@@ -18,6 +18,10 @@ class RegularDataset(Dataset):
         self.root = opt.dataroot
         self.transforms = augment
 
+        #input shae (W x H) = (256, 512)
+        self.img_width = 256
+        self.img_height = 512
+
         # input A (label maps source)
         dir_A = '_label'
         self.dir_A = os.path.join(opt.dataroot, opt.phase + dir_A)
@@ -34,6 +38,8 @@ class RegularDataset(Dataset):
         self.densepose_paths = sorted(glob(self.dir_densepose + '/*'))
 
         self.dataset_size = len(self.A_paths)
+
+        print("label image size = {0} densepose image size{1}".format(self.dataset_size, len(self.densepose_paths)))
 
     def custom_transform(self, input_image, per_channel_transform):
 
@@ -84,6 +90,7 @@ class RegularDataset(Dataset):
 
         # original seg mask
         seg_mask = Image.open(A_path)
+        seg_mask = seg_mask.resize((self.img_width,self.img_height),Image.BICUBIC)  #이미지 해상도를  미리 resize 해두자.
         seg_mask = np.array(seg_mask)
         seg_mask = torch.tensor(seg_mask, dtype=torch.long)
 
@@ -106,6 +113,7 @@ class RegularDataset(Dataset):
         
         if parse_type == "seg":
             parse = Image.open(parse_obj)
+            parse = parse.resize((self.img_width,self.img_height),Image.NEAREST)    #이미지 해상도를  미리 resize 해두자.    
             parse = np.array(parse)
             parse_channel = 20
 
