@@ -43,7 +43,7 @@ class RegularDataset(Dataset):
 
         self.dataset_size = len(self.A_paths)
 
-        print("label image size = {0} densepose image size = {1}".format(self.dataset_size, len(self.densepose_paths)))
+        #print("label image size = {0} densepose image size = {1}".format(self.dataset_size, len(self.densepose_paths)))
 
     def custom_transform(self, input_image, per_channel_transform):
 
@@ -81,7 +81,7 @@ class RegularDataset(Dataset):
 
         # densepose maps
         #  새 모듈 시작
-        print("denspose_paths : {}".format(self.densepose_paths[index]))
+        #print("denspose_paths : {}".format(self.densepose_paths[index]))
 
         # |labels| = [H,W]
         # |uv| = [2,H,W]
@@ -106,25 +106,25 @@ class RegularDataset(Dataset):
             pred_densepose = densepose_pkl_data[0]['pred_densepose']
 
             #print("densepose_pkl_data : {}".format(densepose_pkl_data[0]))
-            print("pred dense boxes : {} ({} )".format(densepose_pkl_data[0]['pred_boxes_XYXY'],densepose_pkl_data[0]['pred_boxes_XYXY'].shape))
+            #print("pred dense boxes : {} ({} )".format(densepose_pkl_data[0]['pred_boxes_XYXY'],densepose_pkl_data[0]['pred_boxes_XYXY'].shape))
             #print("pred dense pose label : {} ( {} )".format(pred_densepose[0].labels,pred_densepose[0].labels.shape))
 
             bbox_xywh = densepose_pkl_data[0]['pred_boxes_XYXY'][0]
             x, y, w, h = int(bbox_xywh[0]), int(bbox_xywh[1]), int(bbox_xywh[2]-bbox_xywh[0]), int(bbox_xywh[3]-bbox_xywh[1])
-            print("pred dense boxes : {} {} {} {}".format(x,y,w,h))
+            #print("pred dense boxes : {} {} {} {}".format(x,y,w,h))
 
             org_file_path = os.path.basename(densepose_pkl_data[0]['file_name'])
             org_file_path = os.path.join(self.opt.dataroot, self.opt.phase, org_file_path)
-            print("orginal file path : {}".format(org_file_path))
+            #print("orginal file path : {}".format(org_file_path))
 
 
             temp_w,temp_h = Image.open(org_file_path).size
-            print("orginal file size : [{}, {} ]".format(temp_h,temp_w))
+            #print("orginal file size : [{}, {} ]".format(temp_h,temp_w))
             
             img_final_arr =  np.zeros((temp_h,temp_w,3))
 
             iuv_arr = torch.cat([pred_densepose[0].labels.unsqueeze(0), pred_densepose[0].uv],0).cpu().numpy()
-            print("pred iuv_arr shape : {}".format(iuv_arr.shape))
+            #print("pred iuv_arr shape : {}".format(iuv_arr.shape))
             
             mask = np.transpose(iuv_arr,(1,2,0))
             img_final_arr[y:y+h,x:x+w,:] = mask
@@ -138,7 +138,7 @@ class RegularDataset(Dataset):
 
             dense_img_parts_embeddings = np.transpose(dense_img_parts_embeddings, axes=(1, 2, 0))
             dense_img_final = np.concatenate((dense_img_parts_embeddings, dense_img[:, :, 1:]), axis=-1)  # channel(27), H, W
-            print("dense_img_final shape {} ".format(dense_img_final.shape))
+            #print("dense_img_final shape {} ".format(dense_img_final.shape))
         
         dense_img_final = torch.from_numpy(np.transpose(dense_img_final, axes=(2, 0, 1)))
         
