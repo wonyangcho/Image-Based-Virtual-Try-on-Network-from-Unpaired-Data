@@ -1,6 +1,6 @@
 import easydict
 
-class TrainOptions():
+class TrainOptionsColab():
 
     def initialize(self):
         
