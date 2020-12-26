@@ -39,10 +39,10 @@ def define_G(input_nc, output_nc, ngf, netG, n_downsample_global=3, n_blocks_glo
     print(netG)
     if len(gpu_ids) > 0:
         assert(torch.cuda.is_available())   
-        try:  
-            netG.cuda(gpu_ids[0])              
-        except RuntimeError:
-            netG.cuda()              
+        # try:  
+        #     netG.cuda(gpu_ids[0])              
+        # except RuntimeError:
+        netG.cuda()            
     netG.apply(weights_init)
     return netG
 
@@ -51,11 +51,11 @@ def define_D(input_nc, ndf, n_layers_D, norm='instance', use_sigmoid=False, num_
     netD = MultiscaleDiscriminator(input_nc, ndf, n_layers_D, norm_layer, use_sigmoid, num_D, getIntermFeat)   
     print(netD)
     if len(gpu_ids) > 0:
-        assert(torch.cuda.is_available())
-        try:  
-            netG.cuda(gpu_ids[0])              
-        except RuntimeError :
-            netG.cuda()              
+        # assert(torch.cuda.is_available())
+        # try:  
+        #     netG.cuda(gpu_ids[0])              
+        # except RuntimeError :
+        netG.cuda()              
     netD.apply(weights_init)
     return netD
 
