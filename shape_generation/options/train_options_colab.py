@@ -2,6 +2,10 @@ import easydict
 
 class TrainOptionsColab():
 
+    def __init__(self):
+        self.parser = None
+        self.initialized = False
+
     def initialize(self):
         
         self.parser = easydict.EasyDict({
@@ -97,6 +101,7 @@ class TrainOptionsColab():
                  
         
         })
+        self.initialized = True
         self.isTrain = True
 
         
