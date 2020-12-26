@@ -96,12 +96,13 @@ class TrainOptionsColab():
                 "no_vgg_loss": True,                        #'if specified, do *not* use VGG feature matching loss'
                 "no_lsgan": True,                           #'do *not* use least square GAN, if false, use vanilla GAN'
                 "pool_size": 0,                             #'the size of image buffer that stores previously generated images'
-                "no_ce_loss": True                          #'if specified, do *not* use ce matching loss'
+                "no_ce_loss": True,                         #'if specified, do *not* use ce matching loss'
 
+                "isTrain": True                         
                  
         
         })
         self.initialized = True
-        self.isTrain = True
+
 
         
