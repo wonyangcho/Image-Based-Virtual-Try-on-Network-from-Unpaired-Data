@@ -1,6 +1,6 @@
 import easydict
 
-class TrainOptions(BaseOptions):
+class TrainOptions():
 
     def initialize(self):
         
