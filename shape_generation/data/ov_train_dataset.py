@@ -4,7 +4,9 @@ from data.image_folder import make_dataset
 
 import os
 import sys
+
 sys.path.append("/home/detectron2/projects/DensePose")
+sys.path.append("./DensePose")  # for colab
 
 from PIL import Image
 from glob import glob as glob
