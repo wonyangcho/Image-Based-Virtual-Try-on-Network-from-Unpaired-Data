@@ -41,7 +41,7 @@ def define_G(input_nc, output_nc, ngf, netG, n_downsample_global=3, n_blocks_glo
         assert(torch.cuda.is_available())   
         try:  
             netG.cuda(gpu_ids[0])              
-        except:
+        except RuntimeError:
             netG.cuda()              
     netG.apply(weights_init)
     return netG
@@ -54,7 +54,7 @@ def define_D(input_nc, ndf, n_layers_D, norm='instance', use_sigmoid=False, num_
         assert(torch.cuda.is_available())
         try:  
             netG.cuda(gpu_ids[0])              
-        except:
+        except RuntimeError :
             netG.cuda()              
     netD.apply(weights_init)
     return netD
