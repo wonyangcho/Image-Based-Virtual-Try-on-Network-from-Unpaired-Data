@@ -52,10 +52,10 @@ def define_D(input_nc, ndf, n_layers_D, norm='instance', use_sigmoid=False, num_
     print(netD)
     if len(gpu_ids) > 0:
         # assert(torch.cuda.is_available())
-        # try:  
-        #     netG.cuda(gpu_ids[0])              
-        # except RuntimeError :
-        netG.cuda()              
+        try:  
+            netD.cuda(gpu_ids[0])              
+        except RuntimeError:
+            netD.cuda()                
     netD.apply(weights_init)
     return netD
 
