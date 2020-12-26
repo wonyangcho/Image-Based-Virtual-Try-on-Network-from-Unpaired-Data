@@ -10,7 +10,7 @@ class TrainOptionsColab():
         
         self.parser = easydict.EasyDict({
                 "name": 'vfr',                              #name of the experiment. It decides where to store samples and models'
-                "gpu_ids": '',                             #'gpu ids: e.g. 0  0,1,2, 0,2. use -1 for CPU'
+                "gpu_ids": '0',                             #'gpu ids: e.g. 0  0,1,2, 0,2. use -1 for CPU'
                 "checkpoints_dir": './checkpoints',         #'models are saved here'
                 "model": "ov_pix2pixHD",                    #'which model to use'
                 "norm": "instance",                         #'instance normalization or batch normalization'
