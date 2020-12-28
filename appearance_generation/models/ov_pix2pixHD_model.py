@@ -174,7 +174,7 @@ class Pix2PixHDModel(BaseModel):
             
             for enc_channel in range(30):
 
-                print("enc_channel :".format(enc_channel))
+                print("enc_channel : {}".format(enc_channel))
 
 
                 region_of_interest = app_feature_vec_temp[indices[:, 0],
@@ -182,8 +182,7 @@ class Pix2PixHDModel(BaseModel):
 
                 print("region_of_interest : {} [{}]".format(region_of_interest,region_of_interest.shape))
 
-                enc_each_channel_mean = torch.mean(
-                    region_of_interest).expand_as(region_of_interest)
+                enc_each_channel_mean = torch.mean(region_of_interest).expand_as(region_of_interest)
                 app_feature_map[indices[:, 0], indices[:, 1] + enc_channel,
                                 indices[:, 2], indices[:, 3]] = enc_each_channel_mean
 
