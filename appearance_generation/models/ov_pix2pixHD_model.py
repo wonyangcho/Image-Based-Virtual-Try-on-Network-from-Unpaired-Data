@@ -98,6 +98,7 @@ class Pix2PixHDModel(BaseModel):
         # why Imagepool is used / Need to understand
 
         if self.isTrain:
+            print("is Train")
             if opt.pool_size > 0 and (len(self.gpu_ids)) > 1:
                 raise NotImplementedError(
                     "Fake Pool Not Implemented for MultiGPU")
@@ -171,6 +172,7 @@ class Pix2PixHDModel(BaseModel):
             indices = (selected_seg_mask_tensor == int(num_seg_channel)).nonzero()  # nx4
             print("indices : {} [{}]".format(indices,indices.shape))
             print("app_feature_map : {} [{}]".format(app_feature_map,app_feature_map.shape))
+            print("app_feature_vec_temp : {} [{}]".format(app_feature_vec_temp,app_feature_vec_temp.shape))
             
            
             for enc_channel in range(30):
