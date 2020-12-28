@@ -27,8 +27,8 @@ class TrainOptionsColab():
                 "fineSize": 512,                            #'then crop to this size'
                 "label_nc": 20,                             #'# of input label channels'
                 "input_nc": 20,                             #'# of input image channels'
-                "densepose_nc": 27,                         #'# of denspose channels'
-                "output_nc": 20,                            #'# of output image channels'    
+                "densepose_nc": 3,                         #'# of denspose channels'
+                "output_nc": 3,                            #'# of output image channels'    
                 
                 # for setting inputs
 
@@ -103,6 +103,3 @@ class TrainOptionsColab():
         
         })
         self.initialized = True
-
-
-        
