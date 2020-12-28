@@ -1,6 +1,6 @@
 import easydict
 
-class TrainOptionsColab():
+class TestOptionsColab():
 
     def __init__(self):
         self.parser = None
