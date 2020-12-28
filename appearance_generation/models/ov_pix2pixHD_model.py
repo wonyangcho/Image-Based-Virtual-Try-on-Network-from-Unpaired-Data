@@ -172,19 +172,20 @@ class Pix2PixHDModel(BaseModel):
             print("indices : {} [{}]".format(indices,indices.shape))
             print("app_feature_map : {} [{}]".format(app_feature_map,app_feature_map.shape))
             
+            region_of_interest = app_feature_vec_temp[indices[:, 0],indices[:, 1] + enc_channel, indices[:, 2], indices[:, 3]]
+            enc_each_channel_mean = torch.mean(region_of_interest).expand_as(region_of_interest)
             for enc_channel in range(30):
 
-                print("enc_channel : {}".format(enc_channel))
+                print("1.enc_channel : {}".format(enc_channel))
 
+                #print("2.indices[:, 0] : {}  indices[:, 1] :{} indices[:, 2]:{} indices[:, 3]".format(indices[:, 0],indices[:, 1], enc_channel,indices[:, 2], indices[:, 3]))
+                #region_of_interest = app_feature_vec_temp[indices[:, 0],indices[:, 1] + enc_channel, indices[:, 2], indices[:, 3]]
 
-                region_of_interest = app_feature_vec_temp[indices[:, 0],
-                                                          indices[:, 1] + enc_channel, indices[:, 2], indices[:, 3]]
+                #print("3.region_of_interest : {} [{}]".format(region_of_interest,region_of_interest.shape))
 
-                print("region_of_interest : {} [{}]".format(region_of_interest,region_of_interest.shape))
+                #enc_each_channel_mean = torch.mean(region_of_interest).expand_as(region_of_interest)
 
-                enc_each_channel_mean = torch.mean(region_of_interest).expand_as(region_of_interest)
-
-                print("indices[:, 0] : {}  indices[:, 1]+enc_channel :{} indices[:, 2]:{} indices[:, 3]".format(indices[:, 0],indices[:, 1] + enc_channel, enc_channel,indices[:, 2], indices[:, 3]))
+                print("4.indices[:, 0] : {}  indices[:, 1]+enc_channel :{} indices[:, 2]:{} indices[:, 3]".format(indices[:, 0],indices[:, 1] + enc_channel, enc_channel,indices[:, 2], indices[:, 3]))
 
                 app_feature_map[indices[:, 0], indices[:, 1] + enc_channel,indices[:, 2], indices[:, 3]] = enc_each_channel_mean
 
