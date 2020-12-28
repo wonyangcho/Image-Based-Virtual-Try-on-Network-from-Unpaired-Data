@@ -165,7 +165,7 @@ class Pix2PixHDModel(BaseModel):
         for num_seg_channel in range(20):
             
             print(num_seg_channel)
-            print(int(num_seg_channel)
+            print(int(num_seg_channel))
             print(int(selected_seg_mask_tensor))
             indices = (selected_seg_mask_tensor == int(num_seg_channel)).nonzero()  # nx4
             
