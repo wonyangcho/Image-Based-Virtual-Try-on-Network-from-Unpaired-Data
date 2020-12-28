@@ -27,8 +27,7 @@ class TestDataset(Dataset):
         self.B_paths = sorted(make_dataset(self.dir_B))
 
         # densepose maps
-        self.dir_densepose = os.path.join(
-            opt.dataroot, opt.phase + '_densepose')
+        self.dir_densepose = os.path.join(opt.dataroot, opt.phase + '_densepose')
         self.densepose_paths = sorted(glob(self.dir_densepose + '/*'))
 
         self.dataset_size = len(self.A_paths)
@@ -48,14 +47,12 @@ class TestDataset(Dataset):
         # densepose maps
         dense_path = self.densepose_paths[index]
         dense_img = np.load(dense_path).astype('uint8')  # channel last
-        dense_img_parts_embeddings = self.parsing_embedding(
-            dense_img[:, :, 0], 'densemap')
+        dense_img_parts_embeddings = self.parsing_embedding(dense_img[:, :, 0], 'densemap')
         dense_img_parts_embeddings = np.transpose(dense_img_parts_embeddings,axes= (1,2,0))
         dense_img_final = np.concatenate((dense_img_parts_embeddings,dense_img[:, :, 1:]), axis=-1)  # channel(27), H, W
         dense_img_final = torch.from_numpy(np.transpose(dense_img_final,axes= (2,0,1)))
 
-        input_dict = {'query': A_tensor, 'dense_map': dense_img_final,
-                      'ref': B_tensor, 'query_path': A_path,'ref_path': B_path}
+        input_dict = {'query': A_tensor, 'dense_map': dense_img_final,'ref': B_tensor, 'query_path': A_path,'ref_path': B_path}
 
         return input_dict
 
@@ -68,8 +65,7 @@ class TestDataset(Dataset):
             if input_type == "densepose":
                 for i in range(num_channel_img):
                     if i > 24:
-                        tform_input_image_np[i] = self.transforms['1'](
-                            input_image[i].astype('uint8'))
+                        tform_input_image_np[i] = self.transforms['1'](input_image[i].astype('uint8'))
                     else:
                         tform_input_image_np[i] = input_image[i]
 
