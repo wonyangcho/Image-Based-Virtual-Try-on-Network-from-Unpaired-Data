@@ -164,8 +164,9 @@ class Pix2PixHDModel(BaseModel):
         app_feature_vec_temp = y.clone()
         for num_seg_channel in range(20):
             
-           
+            #여기
             indices = np.nonzero(selected_seg_mask_tensor.cpu().numpy() == int(num_seg_channel))
+            indices = torch.from_numpy(indices).gpu()
             #indices = (selected_seg_mask_tensor == int(num_seg_channel)).nonzero()  # nx4
 
           
