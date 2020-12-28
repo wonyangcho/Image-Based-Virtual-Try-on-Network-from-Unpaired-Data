@@ -163,8 +163,11 @@ class Pix2PixHDModel(BaseModel):
 
         app_feature_vec_temp = y.clone()
         for num_seg_channel in range(20):
-            indices = (selected_seg_mask_tensor == int(
-                num_seg_channel)).nonzero()  # nx4
+            try:
+                indices = (selected_seg_mask_tensor == int(num_seg_channel)).nonzero()  # nx4
+            except Exception as e: 
+                print(e)
+            
             for enc_channel in range(30):
                 region_of_interest = app_feature_vec_temp[indices[:, 0],
                                                           indices[:, 1] + enc_channel, indices[:, 2], indices[:, 3]]

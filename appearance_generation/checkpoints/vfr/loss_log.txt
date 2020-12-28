@@ -1,0 +1,6 @@
+================ Training Loss (Sun Dec 27 12:45:17 2020) ================
+(epoch: 1, iters: 100, time: 0.844) G_GAN: 1.702 G_VGG: 15.329 D_real: 0.302 D_fake: 0.224 
+(epoch: 1, iters: 200, time: 0.858) G_GAN: 2.155 G_VGG: 18.515 D_real: 0.201 D_fake: 0.110 
+(epoch: 1, iters: 300, time: 0.863) G_GAN: 1.691 G_VGG: 14.115 D_real: 0.157 D_fake: 0.096 
+================ Training Loss (Sun Dec 27 13:11:44 2020) ================
+(epoch: 1, iters: 100, time: 0.928) G_GAN: 1.754 G_VGG: 19.251 D_real: 0.483 D_fake: 0.455 
