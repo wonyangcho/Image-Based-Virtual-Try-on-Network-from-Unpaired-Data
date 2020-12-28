@@ -164,7 +164,7 @@ class Pix2PixHDModel(BaseModel):
         app_feature_vec_temp = y.clone()
         for num_seg_channel in range(20):
             
-            print("num_seg_channel : {} [{}] ".format(num_seg_channel,num_seg_channel.shape))
+            print("num_seg_channel : {} ".format(num_seg_channel))
             print("selected_seg_mask_tensor : {} [{}] ".format(selected_seg_mask_tensor,selected_seg_mask_tensor.shape))           
             
             print(int(selected_seg_mask_tensor))
