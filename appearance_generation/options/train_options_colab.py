@@ -59,7 +59,7 @@ class TrainOptionsColab():
                 "no_instance": True,                        #'if specified, do *not* add instance map as input'
                 "instance_feat": True,                      #'if specified, add encoded instance features as input'
                 "label_feat": True,                         #'if specified, add encoded label features as input'
-                "feat_num": 10,                             #'vector length for encoded features    
+                "feat_num": 30,                             #'vector length for encoded features    
                 "load_features": True,                      #'if specified, load precomputed feature maps'
                 "n_downsample_E": 4,                        #'# of downsampling layers in encoder'
                 "nef": 16,                                  #'# of encoder filters in the first conv layer'

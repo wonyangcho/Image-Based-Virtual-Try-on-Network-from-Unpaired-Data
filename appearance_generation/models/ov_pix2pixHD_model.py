@@ -158,8 +158,7 @@ class Pix2PixHDModel(BaseModel):
         selected_img_tensor = target
         selected_seg_parse_map = seg_map
 
-        input_encoder = torch.cat(
-            (selected_img_tensor, selected_seg_parse_map), 1).cuda()
+        input_encoder = torch.cat((selected_img_tensor, selected_seg_parse_map), 1).cuda()
         y = self.netE.forward(input_encoder)
 
         app_feature_vec_temp = y.clone()
@@ -170,19 +169,19 @@ class Pix2PixHDModel(BaseModel):
             
 
             indices = (selected_seg_mask_tensor == int(num_seg_channel)).nonzero()  # nx4
-            print("indices : {} [{}]".format(indices,indices.shape))
-            print("app_feature_map : {} [{}]".format(app_feature_map,app_feature_map.shape))
-            print("app_feature_vec_temp : {} [{}]".format(app_feature_vec_temp,app_feature_vec_temp.shape))
+            # print("indices : {} [{}]".format(indices,indices.shape))
+            # print("app_feature_map : {} [{}]".format(app_feature_map,app_feature_map.shape))
+            # print("app_feature_vec_temp : {} [{}]".format(app_feature_vec_temp,app_feature_vec_temp.shape))
             
            
             for enc_channel in range(30):
 
-                print("1.enc_channel : {}".format(enc_channel))
+                # print("1.enc_channel : {}".format(enc_channel))
 
-                print("2.indices[:, 0] : {}  indices[:, 1]+enc_channel :{} indices[:, 2]:{} indices[:, 3]".format(indices[:, 0],indices[:, 1] + enc_channel, enc_channel,indices[:, 2], indices[:, 3]))
+                # print("2.indices[:, 0] : {}  indices[:, 1]+enc_channel :{} indices[:, 2]:{} indices[:, 3]".format(indices[:, 0],indices[:, 1] + enc_channel, enc_channel,indices[:, 2], indices[:, 3]))
                 region_of_interest = app_feature_vec_temp[indices[:, 0],indices[:, 1] + enc_channel, indices[:, 2], indices[:, 3]]
 
-                print("3.region_of_interest : {} [{}]".format(region_of_interest,region_of_interest.shape))
+                # print("3.region_of_interest : {} [{}]".format(region_of_interest,region_of_interest.shape))
                 enc_each_channel_mean = torch.mean(region_of_interest).expand_as(region_of_interest)
 
               
