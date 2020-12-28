@@ -166,14 +166,22 @@ class Pix2PixHDModel(BaseModel):
             
             print(num_seg_channel)
             print(selected_seg_mask_tensor)
-            print(selected_seg_mask_tensor == int(num_seg_channel))
+            
 
             indices = (selected_seg_mask_tensor == int(num_seg_channel)).nonzero()  # nx4
-            
+            print("indices : {} [{}]".format(indices,indices.shape))
+            print("app_feature_map : {} [{}]".format(app_feature_map,app_feature_map.shape))
             
             for enc_channel in range(30):
+
+                print("enc_channel :".format(enc_channel))
+
+
                 region_of_interest = app_feature_vec_temp[indices[:, 0],
                                                           indices[:, 1] + enc_channel, indices[:, 2], indices[:, 3]]
+
+                print("region_of_interest : {} [{}]".format(region_of_interest,region_of_interest.shape))
+
                 enc_each_channel_mean = torch.mean(
                     region_of_interest).expand_as(region_of_interest)
                 app_feature_map[indices[:, 0], indices[:, 1] + enc_channel,
