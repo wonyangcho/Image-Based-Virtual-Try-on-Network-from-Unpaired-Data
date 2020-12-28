@@ -164,6 +164,8 @@ class Pix2PixHDModel(BaseModel):
         app_feature_vec_temp = y.clone()
         for num_seg_channel in range(20):
             
+            print(num_seg_channel)
+            print(selected_seg_mask_tensor)
             print(selected_seg_mask_tensor == int(num_seg_channel))
 
             indices = (selected_seg_mask_tensor == int(num_seg_channel)).nonzero()  # nx4
