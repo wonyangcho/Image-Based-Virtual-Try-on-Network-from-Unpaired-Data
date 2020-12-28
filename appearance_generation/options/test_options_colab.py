@@ -65,7 +65,7 @@ class TestOptionsColab():
                 "nef": 16,                                      #'# of encoder filters in the first conv layer'
                 "n_clusters": 10,                               #'number of clusters for features'
 
-                # for displays
+                # for test
 
                 "ntest": float("inf"),                          #'# of test examples.'
                 "results_dir": './results/',                    #'saves results here.'
