@@ -183,8 +183,11 @@ class Pix2PixHDModel(BaseModel):
                 print("region_of_interest : {} [{}]".format(region_of_interest,region_of_interest.shape))
 
                 enc_each_channel_mean = torch.mean(region_of_interest).expand_as(region_of_interest)
-                app_feature_map[indices[:, 0], indices[:, 1] + enc_channel,
-                                indices[:, 2], indices[:, 3]] = enc_each_channel_mean
+
+                print("indices[:, 0] : {}  indices[:, 1]+enc_channel :{} indices[:, 2]:{} indices[:, 3]".format(indices[:, 0],indices[:, 1] + enc_channel, enc_channel,indices[:, 2], indices[:, 3]))
+
+                app_feature_map[indices[:, 0], indices[:, 1] + enc_channel,indices[:, 2], indices[:, 3]] = enc_each_channel_mean
+
 
         # Gan Input
         input_concat = torch.cat((seg_map, app_feature_map), dim=1).cuda()
