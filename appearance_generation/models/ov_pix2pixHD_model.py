@@ -171,10 +171,11 @@ class Pix2PixHDModel(BaseModel):
             for enc_channel in range(30):
                 try:
                     region_of_interest = app_feature_vec_temp[indices[:, 0],indices[:, 1] + enc_channel, indices[:, 2], indices[:, 3]]
+                    enc_each_channel_mean = torch.mean(region_of_interest).expand_as(region_of_interest)
+                    app_feature_map[indices[:, 0], indices[:, 1] + enc_channel,indices[:, 2], indices[:, 3]] = enc_each_channel_mean
                 except Exception as e: 
                     print(e)
-                enc_each_channel_mean = torch.mean(region_of_interest).expand_as(region_of_interest)
-                app_feature_map[indices[:, 0], indices[:, 1] + enc_channel,indices[:, 2], indices[:, 3]] = enc_each_channel_mean
+                
 
         # Gan Input
         input_concat = torch.cat((seg_map, app_feature_map), dim=1).cuda()
