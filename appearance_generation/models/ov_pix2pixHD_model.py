@@ -166,6 +166,7 @@ class Pix2PixHDModel(BaseModel):
             
             #여기
             indices = np.nonzero(selected_seg_mask_tensor.cpu().numpy() == int(num_seg_channel))
+            print("indices :".format(indices))
             indices = torch.from_numpy(indices).gpu()
             #indices = (selected_seg_mask_tensor == int(num_seg_channel)).nonzero()  # nx4
 
