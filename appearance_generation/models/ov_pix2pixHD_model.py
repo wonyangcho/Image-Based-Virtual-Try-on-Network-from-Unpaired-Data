@@ -165,7 +165,7 @@ class Pix2PixHDModel(BaseModel):
         for num_seg_channel in range(20):
             
            
-            indices = torch.nonzero(selected_seg_mask_tensor == int(num_seg_channel))
+            indices = np.nonzero(selected_seg_mask_tensor.numpy() == int(num_seg_channel))
             #indices = (selected_seg_mask_tensor == int(num_seg_channel)).nonzero()  # nx4
 
           
