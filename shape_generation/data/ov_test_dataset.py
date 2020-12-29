@@ -95,13 +95,12 @@ class TestDataset(Dataset):
             dense_img = dense_img.resize((self.img_width,self.img_height),Image.BICUBIC)
             dense_img = np.array(dense_img)
 
+            #원래 코드 
             dense_img_parts_embeddings = self.parsing_embedding(dense_img[:, :, 0], 'densemap')
 
             dense_img_parts_embeddings = np.transpose(dense_img_parts_embeddings, axes=(1, 2, 0))
             dense_img_final = np.concatenate((dense_img_parts_embeddings, dense_img[:, :, 1:]), axis=-1)  # channel(27), H, W
-            #print("dense_img_final shape {} ".format(dense_img_final.shape))
-        
-        dense_img_final = torch.from_numpy(np.transpose(dense_img_final, axes=(2, 0, 1)))
+            dense_img_final = torch.from_numpy(np.transpose(dense_img_final, axes=(2, 0, 1)))
 
 
         input_dict = {'query': A_tensor, 'dense_map': dense_img_final,'ref': B_tensor, 'query_path': A_path,'ref_path': B_path}

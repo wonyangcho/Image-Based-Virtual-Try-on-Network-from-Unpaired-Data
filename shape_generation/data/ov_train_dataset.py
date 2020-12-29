@@ -39,8 +39,7 @@ class RegularDataset(Dataset):
         self.B_paths = sorted(make_dataset(self.dir_B))
 
         # densepose maps
-        self.dir_densepose = os.path.join(
-            opt.dataroot, opt.phase + '_densepose')
+        self.dir_densepose = os.path.join(opt.dataroot, opt.phase + '_densepose')
         self.densepose_paths = sorted(glob(self.dir_densepose + '/*'))
 
         self.dataset_size = len(self.A_paths)
@@ -115,15 +114,17 @@ class RegularDataset(Dataset):
             x, y, w, h = int(bbox_xywh[0]), int(bbox_xywh[1]), int(bbox_xywh[2]-bbox_xywh[0]), int(bbox_xywh[3]-bbox_xywh[1])
             #print("pred dense boxes : {} {} {} {}".format(x,y,w,h))
 
-            org_file_path = os.path.basename(densepose_pkl_data[0]['file_name'])
-            org_file_path = os.path.join(self.opt.dataroot, self.opt.phase, org_file_path)
-            #print("orginal file path : {}".format(org_file_path))
+            # org_file_path = os.path.basename(densepose_pkl_data[0]['file_name'])
+            # org_file_path = os.path.join(self.opt.dataroot, self.opt.phase, org_file_path)
+            # #print("orginal file path : {}".format(org_file_path))
 
 
-            temp_w,temp_h = Image.open(org_file_path).size
-            #print("orginal file size : [{}, {} ]".format(temp_h,temp_w))
+            # temp_w,temp_h = Image.open(org_file_path).size
+            # #print("orginal file size : [{}, {} ]".format(temp_h,temp_w))
+
+            img_final_arr =  np.zeros((self.img_height,self.img_width,3))
             
-            img_final_arr =  np.zeros((temp_h,temp_w,3))
+            
 
             iuv_arr = torch.cat([pred_densepose[0].labels.unsqueeze(0), pred_densepose[0].uv],0).cpu().numpy()
             #print("pred iuv_arr shape : {}".format(iuv_arr.shape))
