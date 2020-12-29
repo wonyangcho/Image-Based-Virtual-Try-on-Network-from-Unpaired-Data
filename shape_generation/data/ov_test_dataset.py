@@ -4,10 +4,15 @@ from torch.utils.data.dataset import Dataset
 from data.image_folder import make_dataset
 
 import os
+import sys
+
+sys.path.append("/home/detectron2/projects/DensePose")
+sys.path.append("./detectron2/projects/DensePose")  # for colab
+
 from PIL import Image
 from glob import glob as glob
 import numpy as np
-
+import pickle
 
 class TestDataset(Dataset):
     
@@ -15,6 +20,10 @@ class TestDataset(Dataset):
         self.opt = opt
         self.root = opt.dataroot
         self.transforms = augment
+
+         #input shae (W x H) = (256, 512)
+        self.img_width = 256
+        self.img_height = 512
 
         # input A (label maps)
         dir_A = '_query_label'
@@ -46,6 +55,7 @@ class TestDataset(Dataset):
 
         # densepose maps
         dense_path = self.densepose_paths[index]
+<<<<<<< HEAD
         # dense_img = np.load(dense_path).astype('uint8')  # channel last
         # dense_img_parts_embeddings = self.parsing_embedding(dense_img[:, :, 0], 'densemap')
         # dense_img_parts_embeddings = np.transpose(dense_img_parts_embeddings,axes= (1,2,0))
@@ -69,10 +79,10 @@ class TestDataset(Dataset):
             #print("orginal file path : {}".format(org_file_path))
 
 
-            temp_w,temp_h = Image.open(org_file_path).size
+            #temp_w,temp_h = Image.open(org_file_path).size
             #print("orginal file size : [{}, {} ]".format(temp_h,temp_w))
             
-            img_final_arr =  np.zeros((temp_h,temp_w,3))
+            img_final_arr =  np.zeros((self.img_height,self.img_width,3))
 
             iuv_arr = torch.cat([pred_densepose[0].labels.unsqueeze(0), pred_densepose[0].uv],0).cpu().numpy()
             #print("pred iuv_arr shape : {}".format(iuv_arr.shape))
@@ -92,6 +102,13 @@ class TestDataset(Dataset):
             #print("dense_img_final shape {} ".format(dense_img_final.shape))
         
         dense_img_final = torch.from_numpy(np.transpose(dense_img_final, axes=(2, 0, 1)))
+=======
+        dense_img = np.load(dense_path).astype('uint8')  # channel last
+        dense_img_parts_embeddings = self.parsing_embedding(dense_img[:, :, 0], 'densemap')
+        dense_img_parts_embeddings = np.transpose(dense_img_parts_embeddings,axes= (1,2,0))
+        dense_img_final = np.concatenate((dense_img_parts_embeddings,dense_img[:, :, 1:]), axis=-1)  # channel(27), H, W
+        dense_img_final = torch.from_numpy(np.transpose(dense_img_final,axes= (2,0,1)))
+>>>>>>> parent of affea3c... =modify for test
 
         input_dict = {'query': A_tensor, 'dense_map': dense_img_final,'ref': B_tensor, 'query_path': A_path,'ref_path': B_path}
 

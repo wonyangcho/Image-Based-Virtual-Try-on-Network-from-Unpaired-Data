@@ -7,8 +7,8 @@ import os
 from PIL import Image
 
 
-source_paths = ["/home/dataset_/train_img","/home/dataset_/train_densepose","/home/dataset_/train_label"]
-target_paths = ["/home/dataset/train_img","/home/dataset/train_densepose","/home/dataset/train_label"]
+source_paths = ["/home/dataset_/test_img","/home/dataset_/test_label"]
+target_paths = ["/home/dataset/test_img","/home/dataset/test_label"]
 IMG_W = 256
 IMG_H = 512
 
