@@ -96,7 +96,7 @@ class TestOptionsColab():
                 "no_ce_loss": True,                         #'if specified, do *not* use ce matching loss'
                 "cloth_part": 'uppercloth',                 #'specify the cloth part to generate from ref image'
 
-                "isTrain": True                         
+                "isTrain": False                         
                  
         
         })
