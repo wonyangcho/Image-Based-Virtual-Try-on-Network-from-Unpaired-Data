@@ -83,6 +83,7 @@ class TestOptionsColab():
 
                 # for discriminators 
                 "continue_train": False,                     #'continue training: load the latest model'
+                "load_pretrain": "",                        #'load the pretrained model from the specified location'
 
                 "num_D": 2,                                 #'number of discriminators to use'
                 "n_layers_D": 3,                            #'only used if which_model_netD==n_layers'        
