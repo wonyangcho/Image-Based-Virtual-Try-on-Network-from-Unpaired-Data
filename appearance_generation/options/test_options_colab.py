@@ -102,7 +102,7 @@ class TestOptionsColab():
                 "pool_size": 0,                                 #'the size of image buffer that stores previously generated images'
                 "no_ce_loss": True,                             #'if specified, do *not* use ce matching loss'
 
-                "isTrain": True                         
+                "isTrain": False                         
                  
         
         })
