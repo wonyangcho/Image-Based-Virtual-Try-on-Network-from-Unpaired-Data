@@ -7,8 +7,8 @@ import os
 from PIL import Image
 
 
-source_paths = ["/home/dataset_/test_img","/home/dataset_/test_label"]
-target_paths = ["/home/dataset/test_img","/home/dataset/test_label"]
+source_paths = ["/home/Self-Correction-Human-Parsing/outputs","/home/Self-Correction-Human-Parsing/outputs1"]
+target_paths = ["/home/Self-Correction-Human-Parsing/final","/home/Self-Correction-Human-Parsing/final1"]
 IMG_W = 256
 IMG_H = 512
 
