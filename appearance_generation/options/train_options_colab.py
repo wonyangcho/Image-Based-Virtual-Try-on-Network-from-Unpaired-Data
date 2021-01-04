@@ -22,7 +22,7 @@ class TrainOptionsColab():
                 
                 # input/output sizes       
                 
-                "batchSize": 1,                             #'input batch size'
+                "batchSize": 7,                             #'input batch size'
                 "loadSize": 1024,                           #'scale images to this size'
                 "fineSize": 512,                            #'then crop to this size'
                 "label_nc": 20,                             #'# of input label channels'
@@ -72,7 +72,7 @@ class TrainOptionsColab():
                 "save_latest_freq": 1000,                   #'frequency of saving the latest results'
                 "save_epoch_freq": 5,                       #'frequency of saving checkpoints at the end of epochs'
                 "no_html": True,                            #'do not save intermediate training results to [opt.checkpoints_dir]/[opt.name]/web/'
-                "debug": True,                              #'only do one epoch and displays at each iteration'
+                "debug": False,                              #'only do one epoch and displays at each iteration'
 
                 # for training
 
@@ -80,8 +80,8 @@ class TrainOptionsColab():
                 "load_pretrain": "",                        #'load the pretrained model from the specified location'
                 "which_epoch": "latest",                    #'which epoch to load? set to latest to use latest cached model'
                 "phase": "train",                           #'train, val, test, etc'
-                "niter": 100,                               #'# of iter at starting learning rate'
-                "niter_decay": 100,                         #'# of iter to linearly decay learning rate to zero'
+                "niter": 80,                               #'# of iter at starting learning rate'
+                "niter_decay": 0,                         #'# of iter to linearly decay learning rate to zero'
                 "beta1": 0.5,                               #'momentum term of adam'
                 "lr": 0.0002,                               #'initial learning rate for adam'
 
