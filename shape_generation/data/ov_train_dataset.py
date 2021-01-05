@@ -102,7 +102,7 @@ class RegularDataset(Dataset):
 
         dense_path = self.densepose_paths[index]
 
-        with np.load(dense_path) as dense_img
+        with np.load(dense_path) as dense_img:
             dense_img = dense_img.astype('uint8')
 
             print("dense_img shape {dense_img.shape}")
