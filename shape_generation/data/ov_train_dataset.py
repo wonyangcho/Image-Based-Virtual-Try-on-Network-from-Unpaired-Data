@@ -115,7 +115,7 @@ class RegularDataset(Dataset):
         print("dense_img_parts_embeddings 2 shape {}".format(dense_img_parts_embeddings.shape))
 
         dense_img_final = np.concatenate((dense_img_parts_embeddings, dense_img[:, :, 1:]), axis=-1)  # channel(27), H, W
-            print("dense_img_final shape {}".format(dense_img_final.shape))
+        print("dense_img_final shape {}".format(dense_img_final.shape))
 
         # with open(dense_path, 'rb') as f:
         #     densepose_pkl_data = pickle.load(f)
