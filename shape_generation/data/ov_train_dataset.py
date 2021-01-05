@@ -103,9 +103,9 @@ class RegularDataset(Dataset):
         dense_path = self.densepose_paths[index]
 
         
-        dense_img = p.load(dense_path.astype('uint8')
-
-        print("dense_img shape {}".format(dense_img.shape))
+        dense_img = p.load(dense_path).astype('uint8')
+        print("dense_img shape : {}".format(dense_img))
+        
 
         dense_img_parts_embeddings = self.parsing_embedding(dense_img[:, :, 0], 'densemap')
 
