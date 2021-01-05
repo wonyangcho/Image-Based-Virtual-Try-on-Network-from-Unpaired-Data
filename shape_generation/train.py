@@ -27,7 +27,8 @@ opt = TrainOptions().parse()
 iter_path = os.path.join(opt.checkpoints_dir, opt.name, 'iter.txt')
 
 opt.continue_train = False
-opt.debug = True 
+opt.debug = True
+opt.batchSize = 20 
 
 if opt.continue_train:
     try:
