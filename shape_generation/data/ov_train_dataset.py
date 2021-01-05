@@ -116,7 +116,7 @@ class RegularDataset(Dataset):
 
         elif parse_type == "densemap":
             parse = np.array(parse_obj)
-            parse_channel = 27
+            parse_channel = 25
 
         parse_emb = []
 
