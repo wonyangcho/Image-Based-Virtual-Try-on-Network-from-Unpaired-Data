@@ -35,6 +35,9 @@ else:
     start_epoch, epoch_iter = 1, 0
 
 opt.print_freq = lcm(opt.print_freq, opt.batchSize)
+opt.niter = 80
+opt.niter_decay = 0
+
 if opt.debug:
     opt.display_freq = 1
     opt.print_freq = 1
