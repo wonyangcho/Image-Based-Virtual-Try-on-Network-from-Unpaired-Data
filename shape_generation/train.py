@@ -25,6 +25,10 @@ def lcm(a, b): return abs(a * b)/fractions.gcd(a, b) if a and b else 0
 
 opt = TrainOptions().parse()
 iter_path = os.path.join(opt.checkpoints_dir, opt.name, 'iter.txt')
+
+opt.continue_train = False
+opt.debug = True 
+
 if opt.continue_train:
     try:
         start_epoch, epoch_iter = np.loadtxt(
