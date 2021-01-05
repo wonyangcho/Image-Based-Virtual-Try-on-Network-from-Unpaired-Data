@@ -102,19 +102,19 @@ class RegularDataset(Dataset):
 
         dense_path = self.densepose_paths[index]
 
-        with np.load(dense_path) as dense_img:
-            dense_img = dense_img.astype('uint8')
+        
+        dense_img = p.load(dense_path.astype('uint8')
 
-            print("dense_img shape {dense_img.shape}")
+        print("dense_img shape {dense_img.shape}")
 
-            dense_img_parts_embeddings = self.parsing_embedding(dense_img[:, :, 0], 'densemap')
+        dense_img_parts_embeddings = self.parsing_embedding(dense_img[:, :, 0], 'densemap')
 
-            print("dense_img_parts_embeddings 1 shape {dense_img_parts_embeddings.shape}")
+        print("dense_img_parts_embeddings 1 shape {dense_img_parts_embeddings.shape}")
 
-            dense_img_parts_embeddings = np.transpose(dense_img_parts_embeddings, axes=(1, 2, 0))
-            print("dense_img_parts_embeddings 2 shape {dense_img_parts_embeddings.shape}")
+        dense_img_parts_embeddings = np.transpose(dense_img_parts_embeddings, axes=(1, 2, 0))
+        print("dense_img_parts_embeddings 2 shape {dense_img_parts_embeddings.shape}")
 
-            dense_img_final = np.concatenate((dense_img_parts_embeddings, dense_img[:, :, 1:]), axis=-1)  # channel(27), H, W
+        dense_img_final = np.concatenate((dense_img_parts_embeddings, dense_img[:, :, 1:]), axis=-1)  # channel(27), H, W
             print("dense_img_final shape {dense_img_final.shape}")
 
         # with open(dense_path, 'rb') as f:
