@@ -90,11 +90,11 @@ class RegularDataset(Dataset):
        
 
         # original seg mask
-        seg_mask = Image.open(A_path)
+        with Image.open(A_path) as seg_mask :
        
-        #seg_mask = seg_mask.resize((self.img_width,self.img_height),Image.BICUBIC)  #이미지 해상도를  미리 resize 해두자.
-        seg_mask = np.array(seg_mask)
-        seg_mask = torch.tensor(seg_mask, dtype=torch.long)
+            #seg_mask = seg_mask.resize((self.img_width,self.img_height),Image.BICUBIC)  #이미지 해상도를  미리 resize 해두자.
+            seg_mask = np.array(seg_mask)
+            seg_mask = torch.tensor(seg_mask, dtype=torch.long)
 
         # final returns
         A_tensor = self.custom_transform(A, True)
@@ -102,12 +102,12 @@ class RegularDataset(Dataset):
 
         dense_path = self.densepose_paths[index]
 
-        
-        dense_img = np.load(dense_path).astype('uint8')
-        dense_img_parts_embeddings = self.parsing_embedding(dense_img[:, :, 0], 'densemap')
+        with np.load(dense_path) as dense_img
+            dense_img = dense_img.astype('uint8')
+            dense_img_parts_embeddings = self.parsing_embedding(dense_img[:, :, 0], 'densemap')
 
-        dense_img_parts_embeddings = np.transpose(dense_img_parts_embeddings, axes=(1, 2, 0))
-        dense_img_final = np.concatenate((dense_img_parts_embeddings, dense_img[:, :, 1:]), axis=-1)  # channel(27), H, W
+            dense_img_parts_embeddings = np.transpose(dense_img_parts_embeddings, axes=(1, 2, 0))
+            dense_img_final = np.concatenate((dense_img_parts_embeddings, dense_img[:, :, 1:]), axis=-1)  # channel(27), H, W
 
         # with open(dense_path, 'rb') as f:
         #     densepose_pkl_data = pickle.load(f)
