@@ -28,7 +28,7 @@ iter_path = os.path.join(opt.checkpoints_dir, opt.name, 'iter.txt')
 
 opt.continue_train = False
 opt.debug = True
-opt.batchSize = 20 
+opt.batchSize = 16 
 
 if opt.continue_train:
     try:
