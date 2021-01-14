@@ -95,7 +95,7 @@ for key in train_dataset[0].keys():
         print("type,dtype,and min max -- >", type(x),
             x.dtype, torch.min(x), torch.max(x))
     except Exception as e:
-        print("name of the input -- > ", key, train_dataset[0][key])
+        print("name of the input -- > ", key)
     print('----------------')
 
 dataset_size = len(train_dataset)
