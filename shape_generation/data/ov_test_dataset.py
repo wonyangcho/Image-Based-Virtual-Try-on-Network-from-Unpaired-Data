@@ -21,10 +21,6 @@ class TestDataset(Dataset):
         self.root = opt.dataroot
         self.transforms = augment
 
-         #input shae (W x H) = (256, 512)
-        self.img_width = 256
-        self.img_height = 512
-
         # input A (label maps)
         dir_A = '_query_label'
         self.dir_A = os.path.join(opt.dataroot, opt.phase + dir_A)

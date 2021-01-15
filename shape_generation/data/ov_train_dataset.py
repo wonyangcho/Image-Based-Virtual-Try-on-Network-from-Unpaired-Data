@@ -3,11 +3,6 @@ from torch.utils.data.dataset import Dataset
 from data.image_folder import make_dataset
 
 import os
-import sys
-
-sys.path.append("/home/detectron2/projects/DensePose")
-sys.path.append("./detectron2/projects/DensePose")  # for colab
-
 from PIL import Image
 from glob import glob as glob
 import numpy as np
@@ -24,10 +19,6 @@ class RegularDataset(Dataset):
         self.root = opt.dataroot
         self.transforms = augment
 
-        #input shae (W x H) = (256, 512)
-        self.img_width = 256
-        self.img_height = 512
-
         # input A (label maps source)
         dir_A = '_label'
         self.dir_A = os.path.join(opt.dataroot, opt.phase + dir_A)
@@ -43,8 +34,6 @@ class RegularDataset(Dataset):
         self.densepose_paths = sorted(glob(self.dir_densepose + '/*'))
 
         self.dataset_size = len(self.A_paths)
-
-        print("label image size = {0} densepose image size = {1}".format(self.dataset_size, len(self.densepose_paths)))
 
     def custom_transform(self, input_image, per_channel_transform):
 
@@ -101,23 +90,8 @@ class RegularDataset(Dataset):
         dense_img_final = torch.from_numpy(
             np.transpose(dense_img_final, axes=(2, 0, 1)))
 
-
-        dense_path = self.densepose_paths[index]
-
-        #print("paths : {} {} {}".format(dense_path, A_path, B_path))
-
-        
-        dense_img = np.load(dense_path).astype('uint8')
-        dense_img_parts_embeddings = self.parsing_embedding(dense_img[:, :, 0], 'densemap')
-        dense_img_parts_embeddings = np.transpose(dense_img_parts_embeddings, axes=(1, 2, 0))
-        dense_img_final = np.concatenate((dense_img_parts_embeddings, dense_img[:, :, 1:]), axis=-1)  # channel(27), H, W
-        dense_img_final = torch.from_numpy(np.transpose(dense_img_final, axes=(2, 0, 1))) 
-
-       
-        
-
-        input_dict = {'seg_map': A_tensor, 'dense_map': dense_img_final, 'target': B_tensor, 'seg_map_path': A_path, 'target_path': A_path, 'densepose_path': dense_path, 'seg_mask': seg_mask}
-        
+        input_dict = {'seg_map': A_tensor, 'dense_map': dense_img_final, 'target': B_tensor, 'seg_map_path': A_path,
+                      'target_path': A_path, 'densepose_path': dense_path, 'seg_mask': seg_mask}
 
 
         return input_dict
@@ -126,7 +100,6 @@ class RegularDataset(Dataset):
         
         if parse_type == "seg":
             parse = Image.open(parse_obj)
-            parse = parse.resize((self.img_width,self.img_height),Image.NEAREST)    #이미지 해상도를  미리 resize 해두자.    
             parse = np.array(parse)
             parse_channel = 20
 
