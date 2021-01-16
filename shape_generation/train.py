@@ -18,18 +18,13 @@ from collections import OrderedDict
 from subprocess import call
 import fractions
 from torch.utils.tensorboard import SummaryWriter
-from multiprocessing import Process
+
 
 def lcm(a, b): return abs(a * b)/fractions.gcd(a, b) if a and b else 0
 
 
 opt = TrainOptions().parse()
 iter_path = os.path.join(opt.checkpoints_dir, opt.name, 'iter.txt')
-
-opt.continue_train = False
-opt.debug = True
-opt.batchSize = 1 
-
 if opt.continue_train:
     try:
         start_epoch, epoch_iter = np.loadtxt(
@@ -47,7 +42,6 @@ if opt.debug:
     opt.niter = 1
     opt.niter_decay = 0
     opt.max_dataset_size = 10
-opt.nThreads = 0
 
 # NEW DATALOADER
 augment = {}
@@ -77,16 +71,11 @@ augment['2'] = transforms.Compose(
 
 train_dataset = RegularDataset(opt, augment)
 
-# train_dataloader = DataLoader(train_dataset,
-#                             batch_size=opt.batchSize,
-#                             shuffle=True,
-#                             num_workers=int(opt.nThreads),
-#                             pin_memory=True)
 train_dataloader = DataLoader(train_dataset,
-                            batch_size=opt.batchSize,
-                            shuffle=True,
-                            num_workers=int(opt.nThreads))
-
+                              batch_size=opt.batchSize,
+                              shuffle=True,
+                              num_workers=int(opt.nThreads),
+                              pin_memory=True)
 
 dataset_size = len(train_dataset)
 print('#training images = %d' % dataset_size)
@@ -98,9 +87,9 @@ for key in train_dataset[0].keys():
         x = train_dataset[0][key]
         print("name of the input and shape -- > ", key, x.shape)
         print("type,dtype,and min max -- >", type(x),
-            x.dtype, torch.min(x), torch.max(x))
+              x.dtype, torch.min(x), torch.max(x))
     except Exception as e:
-        print("name of the input -- > ", key)
+        print("name of the input -- > ", key, train_dataset[0][key])
     print('----------------')
 
 dataset_size = len(train_dataset)
@@ -120,7 +109,6 @@ total_steps = (start_epoch-1) * dataset_size + epoch_iter
 display_delta = total_steps % opt.display_freq
 print_delta = total_steps % opt.print_freq
 save_delta = total_steps % opt.save_latest_freq
-
 
 for epoch in range(start_epoch, opt.niter + opt.niter_decay + 1):
     epoch_start_time = time.time()
@@ -145,7 +133,7 @@ for epoch in range(start_epoch, opt.niter + opt.niter_decay + 1):
 
         # sum per device losses
         losses = [torch.mean(x) if not isinstance(x, int)
-                else x for x in losses]
+                  else x for x in losses]
         loss_dict = dict(zip(model.module.loss_names, losses))
 
         # calculate final loss scalar
@@ -176,15 +164,15 @@ for epoch in range(start_epoch, opt.niter + opt.niter_decay + 1):
         # display output images
         if save_fake:
             visuals = OrderedDict([('input_label', util.tensor2label(data['seg_map'][0], opt.label_nc)),
-                                ('synthesized_image', util.tensor2label(
-                                    generated.data[0], opt.label_nc)),
-                                ('real_image', util.tensor2label(data['target'][0], opt.label_nc))])
+                                   ('synthesized_image', util.tensor2label(
+                                       generated.data[0], opt.label_nc)),
+                                   ('real_image', util.tensor2label(data['target'][0], opt.label_nc))])
             visualizer.display_current_results(visuals, epoch, total_steps)
 
         # save latest model
         if total_steps % opt.save_latest_freq == save_delta:
             print('saving the latest model (epoch %d, total_steps %d)' %
-                (epoch, total_steps))
+                  (epoch, total_steps))
             model.module.save('latest')
             np.savetxt(iter_path, (epoch, epoch_iter), delimiter=',', fmt='%d')
 
@@ -194,12 +182,12 @@ for epoch in range(start_epoch, opt.niter + opt.niter_decay + 1):
     # end of epoch
     iter_end_time = time.time()
     print('End of epoch %d / %d \t Time Taken: %d sec' %
-        (epoch, opt.niter + opt.niter_decay, time.time() - epoch_start_time))
+          (epoch, opt.niter + opt.niter_decay, time.time() - epoch_start_time))
 
     # save model for this epoch
     if epoch % opt.save_epoch_freq == 0:
         print('saving the model at the end of epoch %d, iters %d' %
-            (epoch, total_steps))
+              (epoch, total_steps))
         model.module.save('latest')
         model.module.save(epoch)
         np.savetxt(iter_path, (epoch+1, 0), delimiter=',', fmt='%d')
@@ -207,5 +195,3 @@ for epoch in range(start_epoch, opt.niter + opt.niter_decay + 1):
     # linearly decay learning rate after certain iterations
     if epoch > opt.niter:
         model.module.update_learning_rate()
-        
-

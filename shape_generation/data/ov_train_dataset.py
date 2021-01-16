@@ -8,7 +8,6 @@ from glob import glob as glob
 import numpy as np
 import random
 import torch
-import pickle
 
 
 class RegularDataset(Dataset):
@@ -30,7 +29,8 @@ class RegularDataset(Dataset):
         self.B_paths = sorted(make_dataset(self.dir_B))
 
         # densepose maps
-        self.dir_densepose = os.path.join(opt.dataroot, opt.phase + '_densepose')
+        self.dir_densepose = os.path.join(
+            opt.dataroot, opt.phase + '_densepose')
         self.densepose_paths = sorted(glob(self.dir_densepose + '/*'))
 
         self.dataset_size = len(self.A_paths)
@@ -92,7 +92,6 @@ class RegularDataset(Dataset):
 
         input_dict = {'seg_map': A_tensor, 'dense_map': dense_img_final, 'target': B_tensor, 'seg_map_path': A_path,
                       'target_path': A_path, 'densepose_path': dense_path, 'seg_mask': seg_mask}
-
 
         return input_dict
 

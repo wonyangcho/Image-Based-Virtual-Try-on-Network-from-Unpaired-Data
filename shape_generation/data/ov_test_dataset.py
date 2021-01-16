@@ -4,15 +4,10 @@ from torch.utils.data.dataset import Dataset
 from data.image_folder import make_dataset
 
 import os
-import sys
-
-sys.path.append("/home/detectron2/projects/DensePose")
-sys.path.append("./detectron2/projects/DensePose")  # for colab
-
 from PIL import Image
 from glob import glob as glob
 import numpy as np
-import pickle
+
 
 class TestDataset(Dataset):
     
@@ -32,7 +27,8 @@ class TestDataset(Dataset):
         self.B_paths = sorted(make_dataset(self.dir_B))
 
         # densepose maps
-        self.dir_densepose = os.path.join(opt.dataroot, opt.phase + '_densepose')
+        self.dir_densepose = os.path.join(
+            opt.dataroot, opt.phase + '_densepose')
         self.densepose_paths = sorted(glob(self.dir_densepose + '/*'))
 
         self.dataset_size = len(self.A_paths)
@@ -72,7 +68,8 @@ class TestDataset(Dataset):
             if input_type == "densepose":
                 for i in range(num_channel_img):
                     if i > 24:
-                        tform_input_image_np[i] = self.transforms['1'](input_image[i].astype('uint8'))
+                        tform_input_image_np[i] = self.transforms['1'](
+                            input_image[i].astype('uint8'))
                     else:
                         tform_input_image_np[i] = input_image[i]
 
