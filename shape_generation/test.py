@@ -19,6 +19,10 @@ opt = TestOptions().parse(save=False)
 opt.nThreads = 1   # test code only supports nThreads = 1
 opt.batchSize = 1  # test code only supports batchSize = 1
 
+opt.dataroot = "/workspace/work/project/docker_oviton_workspace/dataset"
+opt.results_dir = "/workspace/work/project/docker_oviton_workspace/shape_generation/results"
+opt.checkpoints_dir = "/workspace/work/project/docker_oviton_workspace/shape_generation/checkpoints"
+
 augment = {}
 # augment['1'] = transforms.Compose(
 #     [transforms.ToTensor(),
@@ -56,8 +60,8 @@ web_dir = os.path.join(opt.results_dir, opt.name, '%s_%s' %
 webpage = html.HTML(web_dir, 'Experiment = %s, Phase = %s, Epoch = %s' % (
     opt.name, opt.phase, opt.which_epoch))
 for i, data in enumerate(test_dataloader):
-    if i >= opt.how_many:
-        break
+    #if i >= opt.how_many:
+    #    break
     query_ref_mixed, generated = model.inference_enc(data['query'], data['dense_map'],
                                                      data['ref'], cloth_part= opt.cloth_part)
     visuals = OrderedDict([('query', util.tensor2label(data['query'][0], opt.label_nc)),
