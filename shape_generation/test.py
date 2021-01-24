@@ -19,9 +19,9 @@ opt = TestOptions().parse(save=False)
 opt.nThreads = 1   # test code only supports nThreads = 1
 opt.batchSize = 1  # test code only supports batchSize = 1
 
-opt.dataroot = "/workspace/work/project/docker_oviton_workspace/dataset"
-opt.results_dir = "/workspace/work/project/docker_oviton_workspace/shape_generation/results"
-opt.checkpoints_dir = "/workspace/work/project/docker_oviton_workspace/shape_generation/checkpoints"
+opt.dataroot = "/workspace/home/aden/work/project/o-viton/dataset"
+opt.results_dir = "/workspace/home/aden/work/project/o-viton/shape_generation/results"
+opt.checkpoints_dir = "/workspace/home/aden/work/project/o-viton/shape_generation/checkpoints"
 
 augment = {}
 # augment['1'] = transforms.Compose(

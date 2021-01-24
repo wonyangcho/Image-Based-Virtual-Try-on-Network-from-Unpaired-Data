@@ -48,6 +48,29 @@ class RegularDataset(Dataset):
 
             for i in range(num_channel_image):
                 # TODO check why i!=5 makes a big difference in the output
+
+                 #LIP has 20 labels, including 
+                 # 'Background'
+                 # 'Hat',               ==> 1
+                 # 'Hair',              ==> 2
+                 # 'Glove', 
+                 # 'Sunglasses',        ==> 4
+                 # 'Upper-clothes',     ==> 5 
+                 # 'Dress', 
+                 # 'Coat', 
+                 # 'Socks', 
+                 # 'Pants', 
+                 # 'Jumpsuits', 
+                 # 'Scarf', 
+                 # 'Skirt', 
+                 # 'Face',              ==> 13
+                 # 'Left-arm', 
+                 # 'Right-arm', 
+                 # 'Left-leg', 
+                 # 'Right-leg', 
+                 # 'Left-shoe', 
+                 # 'Right-shoe'.
+
                 if i != 1 and i != 2 and i != 4 and i != 5 and i != 13:
                     # if i != 0 and i != 1 and i != 2 and i != 4 and i != 13:
                     tform_input_image_np[i] = self.transforms['1'](
