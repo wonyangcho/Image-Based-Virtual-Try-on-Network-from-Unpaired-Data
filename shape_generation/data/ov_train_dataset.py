@@ -72,7 +72,8 @@ class RegularDataset(Dataset):
                  # 'Right-shoe'.
 
                 #if i != 1 and i != 2 and i != 4 and i != 5 and i != 13:
-                if i != 0 and i != 1 and i != 2 and i != 4 and i != 13:
+                #if i != 0 and i != 1 and i != 2 and i != 4 and i != 13:
+                if i != 1 and i != 2 and i != 4 and i != 13:
                     tform_input_image_np[i] = self.transforms['1'](
                         input_image[i])
                 else:
