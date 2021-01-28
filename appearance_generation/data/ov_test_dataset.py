@@ -110,7 +110,7 @@ class TestDataset(Dataset):
         print("query_img shape : {} ".format(query_img.shape));
         print("ref_img shape : {} ".format(ref_img.shape));
         print("C_tensor_parse_map shape : {} ".format(C_tensor_parse_map.shape));
-        print("C_tensor_seg_map shape : {} ".format(C_tensor_seg_map.shape));
+        print("C_tensor_seg_map shape : {} ".format(query_ref_label_seg_mask.shape));
             
         input_dict = {
             'query_parse_map': query_label_parse,
