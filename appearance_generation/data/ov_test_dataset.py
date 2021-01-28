@@ -103,14 +103,14 @@ class TestDataset(Dataset):
         query_ref_label_seg_mask = np.array(query_ref_label_seg_mask)
         query_ref_label_seg_mask = torch.tensor(query_ref_label_seg_mask, dtype=torch.long)
 
-        print("query_parse_map shape : {} ".format(query_label_parse.shape))
-        print("ref_parse_map shape : {} ".format(ref_label_parse.shape));
-        print("query_seg_map shape : {} ".format(query_label_seg_mask.shape));
-        print("ref_seg_map shape : {} ".format(ref_label_seg_mask.shape));
-        print("query_img shape : {} ".format(query_img.shape));
-        print("ref_img shape : {} ".format(ref_img.shape));
-        print("C_tensor_parse_map shape : {} ".format(C_tensor.shape));
-        print("C_tensor_seg_map shape : {} ".format(query_ref_label_seg_mask.shape));
+#         print("query_parse_map shape : {} ".format(query_label_parse.shape))
+#         print("ref_parse_map shape : {} ".format(ref_label_parse.shape));
+#         print("query_seg_map shape : {} ".format(query_label_seg_mask.shape));
+#         print("ref_seg_map shape : {} ".format(ref_label_seg_mask.shape));
+#         print("query_img shape : {} ".format(query_img.shape));
+#         print("ref_img shape : {} ".format(ref_img.shape));
+#         print("C_tensor_parse_map shape : {} ".format(C_tensor.shape));
+#         print("C_tensor_seg_map shape : {} ".format(query_ref_label_seg_mask.shape));
             
         input_dict = {
             'query_parse_map': query_label_parse,
