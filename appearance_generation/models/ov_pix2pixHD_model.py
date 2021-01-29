@@ -155,7 +155,7 @@ class Pix2PixHDModel(BaseModel):
         
         n_batch = seg_mask.size()[0]
 
-        print("seg_mask {}".format(seg_mask.shape))
+        #print("seg_mask {}".format(seg_mask.shape))
         #app_feature_map = torch.zeros((1, 30, 512, 256)).float().cuda()
         app_feature_map = torch.zeros((n_batch, 30, 512, 256)).float().cuda()
         
@@ -175,7 +175,7 @@ class Pix2PixHDModel(BaseModel):
             # print(selected_seg_mask_tensor)
             
             try:
-                print("selected_seg_mask_tensor {}".format(selected_seg_mask_tensor.shape))
+                #print("selected_seg_mask_tensor {}".format(selected_seg_mask_tensor.shape))
                 indices = (selected_seg_mask_tensor == int(num_seg_channel)).nonzero()  # nx4
             except Exception as e:
                 print(e)
