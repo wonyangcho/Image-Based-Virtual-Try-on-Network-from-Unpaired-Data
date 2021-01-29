@@ -153,6 +153,7 @@ class Pix2PixHDModel(BaseModel):
         target = target.float().cuda()
         seg_mask = seg_mask.float().cuda()
 
+        print("seg_mask {}".format(seg_mask.shape))
         app_feature_map = torch.zeros((1, 30, 512, 256)).float().cuda()
         selected_seg_mask_tensor = seg_mask
         selected_seg_mask_tensor = torch.unsqueeze(selected_seg_mask_tensor, 0)
