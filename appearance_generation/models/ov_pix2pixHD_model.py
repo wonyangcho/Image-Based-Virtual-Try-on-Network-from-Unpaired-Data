@@ -167,8 +167,12 @@ class Pix2PixHDModel(BaseModel):
             # print(num_seg_channel)
             # print(selected_seg_mask_tensor)
             
-
-            indices = (selected_seg_mask_tensor == int(num_seg_channel)).nonzero()  # nx4
+            try:
+                print("selected_seg_mask_tensor".format(selected_seg_mask_tensor.shape))
+                indices = (selected_seg_mask_tensor == int(num_seg_channel)).nonzero()  # nx4
+            except Exception as e:
+                print(e)
+                sys.exit()
             # print("indices : {} [{}]".format(indices,indices.shape))
             # print("app_feature_map : {} [{}]".format(app_feature_map,app_feature_map.shape))
             # print("app_feature_vec_temp : {} [{}]".format(app_feature_vec_temp,app_feature_vec_temp.shape))
