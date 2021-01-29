@@ -152,11 +152,16 @@ class Pix2PixHDModel(BaseModel):
         seg_map = seg_map.float().cuda()
         target = target.float().cuda()
         seg_mask = seg_mask.float().cuda()
+        
+        n_batch = seg_mask.size()[0]
 
         print("seg_mask {}".format(seg_mask.shape))
-        app_feature_map = torch.zeros((1, 30, 512, 256)).float().cuda()
+        #app_feature_map = torch.zeros((1, 30, 512, 256)).float().cuda()
+        app_feature_map = torch.zeros((n_batch, 30, 512, 256)).float().cuda()
+        
         selected_seg_mask_tensor = seg_mask
-        selected_seg_mask_tensor = torch.unsqueeze(selected_seg_mask_tensor, 0)
+        #selected_seg_mask_tensor = torch.unsqueeze(selected_seg_mask_tensor, 0)
+        selected_seg_mask_tensor = torch.unsqueeze(selected_seg_mask_tensor, 1)
         selected_img_tensor = target
         selected_seg_parse_map = seg_map
 
