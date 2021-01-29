@@ -7,6 +7,7 @@ from .base_model import BaseModel
 from . import networks
 import torch.nn as nn
 from torch.nn.modules.upsampling import Upsample
+import sys
 
 ########################################
 '''
@@ -168,7 +169,7 @@ class Pix2PixHDModel(BaseModel):
             # print(selected_seg_mask_tensor)
             
             try:
-                print("selected_seg_mask_tensor".format(selected_seg_mask_tensor.shape))
+                print("selected_seg_mask_tensor {}".format(selected_seg_mask_tensor.shape))
                 indices = (selected_seg_mask_tensor == int(num_seg_channel)).nonzero()  # nx4
             except Exception as e:
                 print(e)
