@@ -1,3 +1,8 @@
 **/checkpoints/**
 **/__pycache__/**
 *.pyc
+/datasets/
+*.pth
+*.zip
+
+appearance_generation/.ipynb_checkpoints/
