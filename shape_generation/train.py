@@ -44,7 +44,7 @@ if opt.debug:
     opt.niter_decay = 0
     opt.max_dataset_size = 10
 
-wandb.init(project="o-viton-shape")
+wandb.init(project="o-viton[shape-generation]")
 
 
 # NEW DATALOADER
@@ -170,9 +170,9 @@ for epoch in range(start_epoch, opt.niter + opt.niter_decay + 1):
             visualizer.plot_current_errors(errors, total_steps)
 
             log = {}
-            log['epoch'] = epoch
-            log['iters'] = total_steps
-            log['time'] = t
+            #log['epoch'] = epoch
+            #log['iters'] = total_steps
+            #log['time'] = t
 
             #message = '(epoch: %d, iters: %d, time: %.3f) ' % (epoch, i, t)
             for k, v in errors.items():
