@@ -18,6 +18,7 @@ from collections import OrderedDict
 from subprocess import call
 import fractions
 from torch.utils.tensorboard import SummaryWriter
+import wandb
 
 
 def lcm(a, b): return abs(a * b)/fractions.gcd(a, b) if a and b else 0
@@ -42,6 +43,9 @@ if opt.debug:
     opt.niter = 1
     opt.niter_decay = 0
     opt.max_dataset_size = 10
+
+wandb.init(project="o-viton-shape")
+
 
 # NEW DATALOADER
 augment = {}
@@ -97,6 +101,8 @@ print('#training images = %d' % dataset_size)
 
 # Initialize Networks
 model = create_model(opt)
+
+wandb.watch(model)
 
 # Training Visualizer
 visualizer = Visualizer(opt)
@@ -156,9 +162,25 @@ for epoch in range(start_epoch, opt.niter + opt.niter_decay + 1):
         if total_steps % opt.print_freq == print_delta:
             errors = {k: v.data.item() if not isinstance(
                 v, int) else v for k, v in loss_dict.items()}
+
+
+
             t = (time.time() - iter_start_time) / opt.print_freq
             visualizer.print_current_errors(epoch, epoch_iter, errors, t)
             visualizer.plot_current_errors(errors, total_steps)
+
+            log = {}
+            log['epoch'] = epoch
+            log['iters'] = total_steps
+            log['time'] = t
+
+            #message = '(epoch: %d, iters: %d, time: %.3f) ' % (epoch, i, t)
+            for k, v in errors.items():
+                if v != 0:
+                    log[f'{k}'] = v
+            
+            wandb.log(log)
+
             #call(["nvidia-smi", "--format=csv", "--query-gpu=memory.used,memory.free"])
 
         # display output images
@@ -167,7 +189,7 @@ for epoch in range(start_epoch, opt.niter + opt.niter_decay + 1):
                                    ('synthesized_image', util.tensor2label(
                                        generated.data[0], opt.label_nc)),
                                    ('real_image', util.tensor2label(data['target'][0], opt.label_nc))])
-            visualizer.display_current_results(visuals, epoch, total_steps)
+            visualizer.display_current_results(visuals, epoch, total_steps,wandb)
 
         # save latest model
         if total_steps % opt.save_latest_freq == save_delta:
