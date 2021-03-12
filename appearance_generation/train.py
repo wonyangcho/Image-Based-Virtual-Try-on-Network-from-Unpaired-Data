@@ -17,7 +17,7 @@ from collections import OrderedDict
 from subprocess import call
 import fractions
 from torch.utils.tensorboard import SummaryWriter
-
+import wandb
 
 def lcm(a, b): return abs(a * b)/fractions.gcd(a, b) if a and b else 0
 
@@ -41,6 +41,8 @@ if opt.debug:
     opt.niter = 1
     opt.niter_decay = 0
     opt.max_dataset_size = 10
+
+wandb.init(project="o-viton[appearance-generation]")
 
 # NEW DATALOADER
 augment = {}
@@ -78,7 +80,7 @@ print('#training images = %d' % dataset_size)
 
 # Initialize Networks
 model = create_model(opt)
-
+wandb.watch(model)
 # Training Visualizer
 visualizer = Visualizer(opt)
 
@@ -141,6 +143,18 @@ for epoch in range(start_epoch, opt.niter + opt.niter_decay + 1):
             visualizer.print_current_errors(epoch, epoch_iter, errors, t)
             visualizer.plot_current_errors(errors, total_steps)
             #call(["nvidia-smi", "--format=csv", "--query-gpu=memory.used,memory.free"])
+        
+            log = {}
+            #log['epoch'] = epoch
+            #log['iters'] = total_steps
+            #log['time'] = t
+
+            #message = '(epoch: %d, iters: %d, time: %.3f) ' % (epoch, i, t)
+            for k, v in errors.items():
+                if v != 0:
+                    log[f'{k}'] = v
+            
+            wandb.log(log)
 
         # display output images
         if save_fake:
