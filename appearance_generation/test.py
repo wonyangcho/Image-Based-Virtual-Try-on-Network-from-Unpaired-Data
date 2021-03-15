@@ -18,14 +18,6 @@ opt = TestOptions().parse(save=False)
 opt.nThreads = 1   # test code only supports nThreads = 1
 opt.batchSize = 1  # test code only supports batchSize = 1
 
-opt.dataroot = "/workspace/work/project/docker_oviton_workspace/dataset"
-opt.results_dir = "/workspace/work/project/docker_oviton_workspace/appearance_generation/results"
-opt.checkpoints_dir = "/workspace/work/project/docker_oviton_workspace/appearance_generation/checkpoints"
-
-#opt.dataroot = "/workspace/home/aden/work/project/o-viton/dataset"
-#opt.results_dir = "/workspace/home/aden/work/project/o-viton/appearance_generation/results"
-#opt.checkpoints_dir = "/workspace/home/aden/work/project/o-viton/appearance_generation/checkpoints"
-
 augment = {}
 # augment['1'] = transforms.Compose(
 #     [transforms.ToTensor()])  # change to [C, H, W]
@@ -55,8 +47,8 @@ visualizer = Visualizer(opt)
 web_dir = os.path.join(opt.results_dir, opt.name, '%s_%s' % (opt.phase, opt.which_epoch))
 webpage = html.HTML(web_dir, 'Experiment = %s, Phase = %s, Epoch = %s' % (opt.name, opt.phase, opt.which_epoch))
 for i, data in enumerate(test_dataloader):
-    #if i >= opt.how_many:
-    #    break
+    if i >= opt.how_many:
+        break
     generated = model.inference_forward_appearance(data['query_img'],data['query_parse_map'],
                                                               data['query_seg_map'],data['ref_img'],
                                                               data['ref_parse_map'],data['ref_seg_map'],
